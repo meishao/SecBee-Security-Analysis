@@ -15,15 +15,11 @@ if st.button("Start"):
     # Convert the count column to numeric (removing commas if present)
     data['Count of records'] = data['Count of records'].str.replace(',', '').astype(int)
 
-    # Create a bar chart
-    fig, ax = plt.subplots()
-    ax.barh(data['Top 200 values of sourceClass.keyword'], data['Count of records'])
-    ax.set_xlabel('Count of Records')
-    ax.set_ylabel('Threat Categories')
-    ax.set_title('Top 200 Threat Categories by Record Count')
+    # Set the threat categories as the index
+    data.set_index('Top 200 values of sourceClass.keyword', inplace=True)
 
-    # Display the chart in Streamlit
-    st.pyplot(fig)
+    # Plot the bar chart using st.bar_chart
+    st.bar_chart(data['Count of records'])
 
 
 
