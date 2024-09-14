@@ -33,7 +33,7 @@ pg = st.navigation(nav)
 add_page_title(pg)
 
 pg.run()
-'''
+
 
 import streamlit as st
 
@@ -76,3 +76,83 @@ else:
     pg = st.navigation([login_page])
 
 pg.run()
+
+'''
+
+import streamlit as st
+from st_supabase_connection import SupabaseConnection
+
+# 初始化 Supabase 连接
+@st.experimental_singleton
+def init_supabase_connection():
+    return SupabaseConnection()
+
+supabase = init_supabase_connection()
+
+# 初始化 session_state 变量
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
+if "user" not in st.session_state:
+    st.session_state["user"] = None
+
+def login():
+    st.title("登录")
+
+    email = st.text_input("邮箱")
+    password = st.text_input("密码", type="password")
+
+    if st.button("登录"):
+        try:
+            # 使用 st-supabase-connection 进行认证
+            user = supabase.login(email, password)
+            if user:
+                st.session_state["logged_in"] = True
+                st.session_state["user"] = user
+                st.success("登录成功")
+                st.experimental_rerun()
+            else:
+                st.error("登录失败，请检查您的邮箱和密码。")
+        except Exception as e:
+            st.error(f"登录时出错：{e}")
+
+def logout():
+    st.title("退出登录")
+    if st.button("退出"):
+        # 使用 st-supabase-connection 进行登出
+        supabase.logout()
+        st.session_state["logged_in"] = False
+        st.session_state["user"] = None
+        st.success("已成功退出登录")
+        st.experimental_rerun()
+
+# 定义页面
+dashboard = st.Page(
+    "dashboard.py", title="仪表板", icon=":material-dashboard:", default=True
+)
+top_country_threat = st.Page(
+    "pages/top_country_threat.py", title="全球威胁趋势", icon=":material-bug-report:"
+)
+top_threat_category = st.Page(
+    "pages/top_threat_category.py", title="威胁分类排行", icon=":material-notification-important:"
+)
+search = st.Page("pages/snort_rule.py", title="搜索", icon=":material-search:")
+history = st.Page("pages/admin.py", title="历史记录", icon=":material-history:")
+
+# 导航
+if st.session_state["logged_in"]:
+    pg = st.navigation(
+        {
+            "账户": [st.Page(logout, title="退出登录", icon=":material-logout:")],
+            "报告": [dashboard, top_country_threat, top_threat_category],
+            "工具": [search, history],
+        }
+    )
+else:
+    pg = st.navigation(
+        {
+            "账户": [st.Page(login, title="登录", icon=":material-login:")],
+        }
+    )
+
+pg.run()
+
