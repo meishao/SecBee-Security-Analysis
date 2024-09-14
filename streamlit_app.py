@@ -85,11 +85,11 @@ from st_supabase_connection import SupabaseConnection
 # 初始化 Supabase 连接
 @st.cache_resource
 def init_supabase_connection():
-    return SupabaseConnection(connection_name="supabase", type=SupabaseConnection)
+    #return SupabaseConnection(connection_name="supabase", type=SupabaseConnection)
+    conn = st.connection("supabase",type=SupabaseConnection)
+    return conn
 
 supabase = init_supabase_connection()
-# conn = st.connection("supabase",type=SupabaseConnection)
-
 
 # 初始化 session_state 变量
 if "logged_in" not in st.session_state:
