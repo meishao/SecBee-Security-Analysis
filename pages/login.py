@@ -31,9 +31,10 @@ def login_page(supabase):
                     st.session_state["logged_in"] = True
                     st.session_state["user"] = auth_response.user
                     st.success("登录成功")
-                    # 设置查询参数并跳转到 dashboard
-                    st.query_params["page"]="dashboard"
-                    st.rerun()
+                    # 避免重复调用 st.rerun，只有当查询参数不正确时才进行跳转
+                    if st.query_params.page != "dashboard":
+                        st.query_params.page = "dashboard"
+                        st.rerun()
                 else:
                     st.error("登录失败，请检查您的邮箱和密码。")
             except Exception as e:
