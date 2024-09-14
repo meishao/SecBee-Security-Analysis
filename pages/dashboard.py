@@ -2,12 +2,9 @@ import streamlit as st
 
 def dashboard_page():
     # 检查用户是否已登录
-    if not st.session_state.get("logged_in"):
+    if not st.session_state.logged_in:
         st.warning("请先登录以访问此页面。")
-        # 避免重复调用，只有当查询参数不正确时才进行跳转
-        if st.query_params.page != "login":
-            st.query_params.page = "login"
-            st.rerun()
+        st.rerun()
     else:
         # 定义页面
         dashboard_page = st.Page(
