@@ -1,5 +1,4 @@
 import streamlit as st
-from pages.logout import logout_page
 
 def dashboard_page():
     # 检查用户是否已登录
@@ -19,7 +18,7 @@ def dashboard_page():
         )
         search_page = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
         history_page = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
-        logout_page = st.Page("pages/logout.py", title="退出登录", icon=":material/logout:")
+        #logout_page = st.Page("pages/logout.py", title="退出登录", icon=":material/logout:")
 
         # 导航
         pg = st.navigation(
