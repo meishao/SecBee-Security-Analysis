@@ -1,7 +1,7 @@
 import streamlit as st
 from app_pages.logout import logout
 
-def dashboard_page():
+def dashboard_page(supabase):
     # 检查用户是否已登录
     if not st.session_state.logged_in:
         st.warning("请先登录以访问此页面。")
