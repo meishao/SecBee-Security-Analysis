@@ -11,3 +11,6 @@ if uploaded_file is not None:
 if st.button("Start"):
     st.write("Analyzing...")
     #st.write(dataframe)
+
+st.bar_chart(dataframe, x="Count of records", y="Top 200 values of sourceClass.keyword", color="site", horizontal=True)
+
