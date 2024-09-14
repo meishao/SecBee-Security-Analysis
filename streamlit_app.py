@@ -19,7 +19,7 @@ def check_auth():
 
 def main():
     if not check_auth():
-        login_page()
+        login_page(supabase)
     else:
         dashboard_page()
 
