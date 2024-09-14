@@ -1,5 +1,8 @@
+# streamlit_app.py
+
 import streamlit as st
 from st_supabase_connection import SupabaseConnection
+import streamlit.components.v1 as components
 
 # 初始化 Supabase 连接
 @st.cache_resource
@@ -25,19 +28,12 @@ def login():
         # 检测当前主题
         theme = st.get_option("theme.base")
         if theme == "dark":
-            image_path = "../dark_mode_logo.png"  # 替换为暗色模式下的图片路径
+            image_path = "dark_mode_image.png"  # 替换为暗色模式下的图片路径
         else:
-            image_path = "../light_mode_logo.png"  # 替换为亮色模式下的图片路径
+            image_path = "light_mode_image.png"  # 替换为亮色模式下的图片路径
 
-        # 使用 HTML 将图片居中
-        st.markdown(
-            f"""
-            <div style='text-align: center;'>
-                <img src='{image_path}' style='width:100%; max-width:300px;'>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        # 使用 st.image 显示图片
+        st.image(image_path, use_column_width=True)
 
     with col2:
         st.subheader("登录您的账户")
@@ -56,48 +52,16 @@ def login():
                     st.session_state["logged_in"] = True
                     st.session_state["user"] = auth_response.user
                     st.success("登录成功")
+                    # 重定向到 dashboard.py
+                    st.experimental_rerun()
                 else:
                     st.error("登录失败，请检查您的邮箱和密码。")
             except Exception as e:
                 st.error(f"登录时出错：{e}")
 
-def logout():
-    st.title("退出登录")
-    if st.button("退出"):
-        # 使用 Supabase 客户端进行登出
-        supabase.client.auth.sign_out()
-        st.session_state["logged_in"] = False
-        st.session_state["user"] = None
-        st.success("已成功退出登录")
-
-# 定义页面
-dashboard = st.Page(
-    "dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
-)
-top_country_threat = st.Page(
-    "pages/top_country_threat.py", title="全球威胁趋势", icon=":material/bug_report:"
-)
-top_threat_category = st.Page(
-    "pages/top_threat_category.py", title="威胁分类排行", icon=":material/notification_important:"
-)
-search = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
-history = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
-
-# 导航
 if st.session_state.get("logged_in"):
-    pg = st.navigation(
-        {
-            "账户": [st.Page(logout, title="退出登录", icon=":material/logout:")],
-            "报告": [dashboard, top_country_threat, top_threat_category],
-            "工具": [search, history],
-        }
-    )
+    # 已登录，重定向到 dashboard.py
+    st.experimental_set_query_params(page="dashboard")
+    st.experimental_rerun()
 else:
-    pg = st.navigation(
-        {
-            "账户": [st.Page(login, title="登录", icon=":material/login:")],
-        }
-    )
-
-pg.run()
-
+    login()
