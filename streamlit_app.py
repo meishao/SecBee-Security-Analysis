@@ -15,26 +15,20 @@ if st.button("Start"):
 '''
 
 import streamlit as st
-from menu import menu
+from st_pages import add_page_title, get_nav_from_toml
 
-# Initialize st.session_state.role to None
-if "role" not in st.session_state:
-    st.session_state.role = None
+st.set_page_config(layout="wide")
 
-# Retrieve the role from Session State to initialize the widget
-st.session_state._role = st.session_state.role
+sections = st.sidebar.toggle("Sections", value=True, key="use_sections")
 
-def set_role():
-    # Callback function to save the role selection to Session State
-    st.session_state.role = st.session_state._role
-
-
-# Selectbox to choose role
-st.selectbox(
-    "Select your role:",
-    [None, "user", "admin", "super-admin"],
-    key="_role",
-    on_change=set_role,
+nav = get_nav_from_toml(
+    ".streamlit/pages_sections.toml" if sections else ".streamlit/pages.toml"
 )
-menu() # Render the dynamic menu!
 
+st.logo("logo.png")
+
+pg = st.navigation(nav)
+
+add_page_title(pg)
+
+pg.run()
