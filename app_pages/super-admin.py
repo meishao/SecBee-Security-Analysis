@@ -6,4 +6,4 @@ if not st.session_state.logged_in:
     st.stop()
 
 st.title("This page is available to super-admins")
-st.markdown(f"You are currently logged with the role of {st.session_state.role}.")
+st.markdown(f"You are currently logged with the role of {st.session_state}.")
