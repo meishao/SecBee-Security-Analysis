@@ -1,8 +1,5 @@
-# streamlit_app.py
-
 import streamlit as st
 from st_supabase_connection import SupabaseConnection
-import streamlit.components.v1 as components
 
 # 初始化 Supabase 连接
 @st.cache_resource
@@ -18,9 +15,6 @@ if "user" not in st.session_state:
     st.session_state["user"] = None
 
 def login():
-    # 去掉登录的标题
-    # st.title("登录")
-
     # 创建左右两列布局
     col1, col2 = st.columns([1, 1])  # 您可以调整比例，如 [1, 2]
 
@@ -52,16 +46,24 @@ def login():
                     st.session_state["logged_in"] = True
                     st.session_state["user"] = auth_response.user
                     st.success("登录成功")
-                    # 重定向到 dashboard.py
-                    st.experimental_rerun()
+                    # 设置查询参数并重定向到 dashboard
+                    st.query_params["page"] = "dashboard"
+                    st.rerun()
                 else:
                     st.error("登录失败，请检查您的邮箱和密码。")
             except Exception as e:
                 st.error(f"登录时出错：{e}")
 
-if st.session_state.get("logged_in"):
-    # 已登录，重定向到 dashboard.py
-    st.query_params(page="dashboard")
-    st.rerun()
-else:
+# 获取当前的查询参数
+query_params = st.query_params
+page = query_params.get("page", "login")
+
+if st.session_state.get("logged_in") and page == "dashboard":
+    # 已登录且页面为 dashboard，加载 dashboard.py
+    import dashboard
+elif page == "login":
     login()
+else:
+    # 未知页面，重定向到登录页面
+    st.query_params["page"] = "login"
+    st.rerun()
