@@ -19,13 +19,13 @@ def logout():
         st.session_state["user"] = None
         st.success("已成功退出登录")
         # 重定向到登录页面
-        st.experimental_set_query_params()
-        st.experimental_rerun()
+        st.query_params()
+        st.rerun()
 
 if st.session_state.get("logged_in"):
     logout()
 else:
     # 未登录，重定向到登录页面
     st.warning("您尚未登录，请先登录。")
-    st.experimental_set_query_params()
-    st.experimental_rerun()
+    st.query_params()
+    st.rerun()
