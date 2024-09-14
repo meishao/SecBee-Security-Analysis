@@ -18,12 +18,13 @@ def dashboard_page():
         )
         search_page = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
         history_page = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
+        
         #logout_page = st.Page("pages/logout.py", title="退出登录", icon=":material/logout:")
 
         # 导航
         pg = st.navigation(
             {
-                "账户": [logout_page],
+                #"账户": [logout_page],
                 "报告": [dashboard_page, top_country_threat_page, top_threat_category_page],
                 "工具": [search_page, history_page],
             }
