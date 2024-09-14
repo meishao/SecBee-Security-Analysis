@@ -26,8 +26,21 @@ if uploaded_file is not None:
     x_col = st.selectbox("Select X-axis variable (numerical):", options=column_names)
     y_col = st.selectbox("Select Y-axis variable (categorical):", options=column_names)
 
-    # Add START button
-    if st.button("START"):
+    # Initialize session state for START button
+    if 'start_clicked' not in st.session_state:
+        st.session_state['start_clicked'] = False
+
+    # Layout for START and Reset buttons
+    col_start, col_reset = st.columns([1, 1])
+    with col_start:
+        if st.button("START"):
+            st.session_state['start_clicked'] = True
+    with col_reset:
+        if st.button("Reset"):
+            st.session_state['start_clicked'] = False
+
+    # Proceed if START has been clicked
+    if st.session_state['start_clicked']:
         # Clean the X-axis column (remove commas and convert to numeric)
         data[x_col] = data[x_col].astype(str).str.replace(',', '').astype(float)
 
