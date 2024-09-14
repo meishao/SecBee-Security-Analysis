@@ -39,6 +39,8 @@ def dashboard():
 
 def logout():
     # 使用 Supabase 进行登出
+    pp = st.query_params
+    st.write(pp)
     supabase.auth.sign_out()
     st.session_state.clear()
     sleep(0.5)
