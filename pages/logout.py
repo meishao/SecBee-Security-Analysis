@@ -1,5 +1,6 @@
 import streamlit as st
 
+'''
 def logout_page(supabase):
     st.title("退出登录")
     if st.button("退出"):
@@ -10,3 +11,4 @@ def logout_page(supabase):
         st.session_state.clear()
         st.success("已成功退出登录")
         st.rerun()
+'''
