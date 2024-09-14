@@ -33,6 +33,7 @@ if uploaded_file is not None:
 
     # 确保数据框中不含布尔值和 NaN
     merged_data = merged_data.dropna(subset=['name', count_col])  # 删除有空值的行
+    merged_data = merged_data[~merged_data['name'].apply(lambda x: isinstance(x, bool))]  # 过滤掉布尔类型的值
 
     # 选择要显示的国家
     selected_countries = st.multiselect(
@@ -73,26 +74,17 @@ if uploaded_file is not None:
         height=600
     ).project('equirectangular')  # 使用等矩形投影显示整个世界
 
-    # 创建气泡图，显示数据值
+    # 创建气泡图，直接应用工具提示
     points = alt.Chart(filtered_data).mark_circle().encode(
         longitude='longitude:Q',
         latitude='latitude:Q',
         size=alt.Size(f'{count_col}:Q', title='记录数', scale=alt.Scale(range=[10, 1000])),
-        color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='记录数')
+        color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='记录数'),
+        tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 确保只显示有效数据
     )
 
-    # 在圆点上显示 count 值的文本
-    text = points.mark_text(
-        align='center',
-        baseline='middle',
-        dx=0,  # x 方向位移
-        dy=-10  # y 方向位移
-    ).encode(
-        text=f'{count_col}:Q'
-    )
-
-    # 将地图、气泡和文本结合
-    final_chart = map_chart + points + text
+    # 将地图和气泡图结合
+    final_chart = map_chart + points
 
     # 在 Streamlit 中显示地图
     st.altair_chart(final_chart, use_container_width=True)
