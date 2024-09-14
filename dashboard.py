@@ -7,8 +7,8 @@ import streamlit.components.v1 as components
 if not st.session_state.get("logged_in"):
     st.warning("请先登录以访问此页面。")
     # 重定向到登录页面
-    st.experimental_set_query_params()
-    st.experimental_rerun()
+    st.query_params()
+    st.rerun()
 else:
     # 导入其他需要的模块
     # from pages.top_country_threat import top_country_threat
