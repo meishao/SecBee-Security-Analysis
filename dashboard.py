@@ -13,7 +13,7 @@ if st.button("Start"):
     st.write("Analyzing...")
     #st.write(dataframe)
     #data['Count of records'] = data['Count of records'].str.replace(',', '').astype(int)
-    st.bar_chart(data.set_index('Top 200 values of sourceClass.keyword'), horizontal=True)
+    st.bar_chart(data.set_index('sourceClass'), horizontal=True)
 
 
 
