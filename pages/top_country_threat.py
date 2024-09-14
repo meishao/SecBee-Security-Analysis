@@ -4,7 +4,7 @@ import altair as alt
 from vega_datasets import data as vega_data
 
 # 加载国家坐标的 CSV 文件
-country_coords = pd.read_csv('path_to_your_uploaded_file/countries.csv')
+country_coords = pd.read_csv('../data/countries.csv')
 
 st.title("SecBee AI Security Analysis")
 
