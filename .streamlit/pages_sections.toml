@@ -15,7 +15,7 @@ icon = ""
 
 [[pages]]
 path = "pages/top_country_threat.py"
-name = "威胁分类排行统计"
+name = "世界威胁分布统计"
 icon = ""
 
 [[pages]]
