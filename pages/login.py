@@ -56,8 +56,8 @@ def login_page(supabase):
         if st.button("注册"):
             try:
                 reg_response = supabase.auth.sign_up({
-                    "email": email,
-                    "password": password
+                    "email": new_email,
+                    "password": new_password
                 })
                 st.success("注册成功！请检查邮件确认账号生效！")
             except Exception as e:
