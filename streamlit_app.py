@@ -1,7 +1,7 @@
 import streamlit as st
 from st_supabase_connection import SupabaseConnection
-from pages.login import login_page
-from pages.dashboard import dashboard_page
+from app_pages.login import login_page
+from app_pages.dashboard import dashboard_page
 
 # 初始化 Supabase 连接
 def init_supabase_connection():
