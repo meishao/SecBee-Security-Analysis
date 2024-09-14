@@ -31,6 +31,9 @@ if uploaded_file is not None:
     # 根据记录数列降序排列数据
     merged_data = merged_data.sort_values(by=count_col, ascending=False)
 
+    # 确保数据框中不含布尔值和 NaN
+    merged_data = merged_data.dropna(subset=['name', count_col])  # 删除有空值的行
+
     # 选择要显示的国家
     selected_countries = st.multiselect(
         "选择要包含的国家：",
@@ -76,7 +79,7 @@ if uploaded_file is not None:
         latitude='latitude:Q',
         size=alt.Size(f'{count_col}:Q', title='记录数', scale=alt.Scale(range=[10, 1000])),
         color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='记录数'),
-        tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 直接应用工具提示
+        tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 确保只显示有效数据
     )
 
     # 将地图和气泡图结合
