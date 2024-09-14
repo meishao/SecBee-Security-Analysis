@@ -19,9 +19,9 @@ def check_auth():
 
 def main():
     if not check_auth():
-        login()
+        login_page()
     else:
-        dashboard()
+        dashboard_page()
 
 if __name__ == "__main__":
     main()
