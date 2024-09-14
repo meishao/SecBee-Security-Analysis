@@ -12,9 +12,7 @@ if uploaded_file is not None:
 if st.button("Start"):
     st.write("Analyzing...")
     #st.write(dataframe)
-'''
 
-'''
 import streamlit as st
 from st_pages import add_page_title, get_nav_from_toml
 
