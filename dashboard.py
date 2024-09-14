@@ -32,16 +32,13 @@ if uploaded_file is not None:
     # Filter the data based on the selected categories
     filtered_data = data[data[category_col].isin(selected_categories)]
 
-    if st.button("Start"):
-        st.write("Analyzing...")
+    # Create a horizontal bar chart using Altair
+    chart = alt.Chart(filtered_data).mark_bar().encode(
+        x=alt.X(f'{count_col}:Q', title='Count of Records'),
+        y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category')
+    ).properties(
+        title="Top Threat Categories by Count"
+    )
 
-        # Create a horizontal bar chart using Altair
-        chart = alt.Chart(filtered_data).mark_bar().encode(
-            x=alt.X(f'{count_col}:Q', title='Count of Records'),
-            y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category')
-        ).properties(
-            title="Top Threat Categories by Count"
-        )
-
-        # Display the Altair chart in Streamlit
-        st.altair_chart(chart, use_container_width=True)
+    # Display the Altair chart in Streamlit
+    st.altair_chart(chart, use_container_width=True)
