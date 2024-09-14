@@ -22,11 +22,21 @@ if uploaded_file is not None:
     # Sort the data by the count column in descending order
     data = data.sort_values(by=count_col, ascending=False)
 
+    # Dynamic filter for Y-axis categories
+    selected_categories = st.multiselect(
+        "Select categories to include:",
+        options=data[category_col].unique(),
+        default=data[category_col].unique()
+    )
+
+    # Filter the data based on the selected categories
+    filtered_data = data[data[category_col].isin(selected_categories)]
+
     if st.button("Start"):
         st.write("Analyzing...")
 
         # Create a horizontal bar chart using Altair
-        chart = alt.Chart(data).mark_bar().encode(
+        chart = alt.Chart(filtered_data).mark_bar().encode(
             x=alt.X(f'{count_col}:Q', title='Count of Records'),
             y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category')
         ).properties(
