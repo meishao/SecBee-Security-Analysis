@@ -1,3 +1,4 @@
 streamlit
 st-pages
 matplotlib
+vega_datasets
