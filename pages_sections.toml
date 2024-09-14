@@ -1,0 +1,24 @@
+[[pages]]
+path = "dashboard.py"
+name = "Dashboard"
+icon = ""
+
+[[pages]]
+name = "威胁趋势解析"
+icon = ""
+is_section = true
+
+[[pages]]
+path = "pages/top_threat_category.py"
+name = "威胁分类排行统计"
+icon = ""
+
+[[pages]]
+name = "威胁分析工具"
+icon = ""
+is_section = true
+
+[[pages]]
+path = "pages/snort_rule.py"
+name = "IDS规则解析"
+icon = ""
