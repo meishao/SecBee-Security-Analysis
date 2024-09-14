@@ -19,20 +19,37 @@ def login():
     st.markdown(
         """
         <style>
+        /* 总体容器样式 */
         .login-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;  /* 水平排列 */
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
             padding: 0;
+            background-color: #1E1E1E;  /* 深色背景 */
         }
-        .login-container img {
-            width: 200px;
-            margin-bottom: 20px;
+        /* 左侧 Logo 样式 */
+        .login-container .logo {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .login-container h1 {
+        .login-container .logo img {
+            width: 300px;
+        }
+        /* 右侧登录表单样式 */
+        .login-container .form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-container h1 {
+            color: #FFFFFF;
             margin-bottom: 30px;
         }
         /* 调整输入框样式 */
@@ -45,8 +62,13 @@ def login():
         }
         div[data-baseweb="input"] > div > input {
             padding: 10px !important;
-            border: 1px solid #ccc !important;
+            border: 1px solid #555 !important;
             border-radius: 5px !important;
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+        ::placeholder {
+            color: #aaa !important;
         }
         /* 调整按钮样式 */
         div.stButton > button {
@@ -61,9 +83,22 @@ def login():
         div.stButton > button:hover {
             background-color: #45a049 !important;
         }
-        /* 消除 Streamlit 默认的顶部间距 */
+        /* 消除 Streamlit 默认的间距 */
         div.block-container {
-            padding-top: 0 !important;
+            padding: 0 !important;
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+            .logo, .form-container {
+                flex: none;
+                width: 100%;
+            }
+            .logo {
+                margin-bottom: 30px;
+            }
         }
         </style>
         """,
@@ -73,8 +108,13 @@ def login():
     # 创建登录容器
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    # 添加 Logo
-    st.image('logo.png')  # 可以指定 width 参数，例如 width=200
+    # 左侧 Logo
+    st.markdown('<div class="logo">', unsafe_allow_html=True)
+    st.image('logo.png')
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # 右侧 登录表单
+    st.markdown('<div class="form-container">', unsafe_allow_html=True)
 
     # 登录标题
     st.markdown('<h1>登录</h1>', unsafe_allow_html=True)
@@ -100,8 +140,9 @@ def login():
         except Exception as e:
             st.error(f"登录时出错：{e}")
 
-    # 结束登录容器
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)  # 结束 form-container
+
+    st.markdown('</div>', unsafe_allow_html=True)  # 结束 login-container
 
 def logout():
     st.title("退出登录")
