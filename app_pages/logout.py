@@ -1,6 +1,6 @@
 import streamlit as st
 
-def logout_page(supabase):
+def logout(supabase):
     st.title("退出登录")
     st.write("正在退出...")
     if st.button("退出"):
