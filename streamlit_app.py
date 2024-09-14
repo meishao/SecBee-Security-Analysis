@@ -1,14 +1,11 @@
 import streamlit as st
-
-"""
-st.title("🎈 My new app")
-st.write(
-    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
-)
-"""
+import pandas as pd
 
 st.title("SecBee AI Security Analysis")
-fp = st.text_input("Upload analysis file:")
+uploaded_file = st.file_uploader("Upload analysis file:")
+if uploader_file is not None:
+    dataframe = pd.read_csv(uploaded_file)
 
 if st.button("Start"):
     st.write("Analyzing...")
+    st.write(dataframe)
