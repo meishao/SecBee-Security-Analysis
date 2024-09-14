@@ -39,9 +39,7 @@ if uploaded_file is not None:
                 title='Threat Category', 
                 axis=alt.Axis(
                     titleAnchor="start",  # Move Y-axis title to the left
-                    titleAngle=0,  # Ensure title is horizontal
                     labelLimit=600,  # Limit label length
-                    labelAngle=-30  # Rotate labels if needed
                 ))
     ).properties(
         title=alt.TitleParams(
