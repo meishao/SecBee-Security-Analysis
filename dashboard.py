@@ -70,18 +70,13 @@ if uploaded_file is not None:
         height=600
     ).project('equirectangular')  # 使用等矩形投影显示整个世界
 
-    # 创建工具提示的选择条件
-    selection = alt.selection_single(on='mouseover', fields=['name'], nearest=True, empty='none')
-
-    # 创建只对气泡显示工具提示的图层
+    # 创建气泡图，直接应用工具提示
     points = alt.Chart(filtered_data).mark_circle().encode(
         longitude='longitude:Q',
         latitude='latitude:Q',
         size=alt.Size(f'{count_col}:Q', title='记录数', scale=alt.Scale(range=[10, 1000])),
         color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='记录数'),
-        tooltip=alt.condition(selection, [alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')], alt.value(''))  # 通过条件设置工具提示
-    ).add_selection(
-        selection
+        tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 直接应用工具提示
     )
 
     # 将地图和气泡图结合
