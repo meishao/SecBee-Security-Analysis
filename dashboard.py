@@ -4,7 +4,7 @@ import altair as alt
 from vega_datasets import data as vega_data
 
 # Load the country coordinates from the uploaded file
-country_coords = pd.read_csv('data/countries.csv')
+country_coords = pd.read_csv('path_to_your_uploaded_file/countries.csv')
 
 st.title("SecBee AI Security Analysis")
 
@@ -76,7 +76,7 @@ if uploaded_file is not None:
         latitude='latitude:Q',
         size=alt.Size(f'{count_col}:Q', title='Count of Records', scale=alt.Scale(range=[10, 1000])),
         color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='Count of Records'),
-        tooltip=['name', count_col]  # Tooltips only for the points
+        tooltip=[alt.Tooltip('name:N', title='Country'), alt.Tooltip(f'{count_col}:Q', title='Count of Records')]  # Proper tooltips for points
     )
 
     # Combine the map and the points (bubbles), with tooltips only on points
