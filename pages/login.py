@@ -34,21 +34,8 @@ def login_page(supabase):
                     st.session_state.user = auth_response.user
                     st.success("登录成功")
                     st.rerun()
-                    
-                    """
-                    if auth_response.user:
-                        st.session_state["logged_in"] = True
-                        st.session_state["user"] = auth_response.user
-                        st.success("登录成功")
-                        # 避免重复调用 st.rerun，只有当查询参数不正确时才进行跳转
-                        if st.query_params.page != "dashboard":
-                            st.query_params.page = "dashboard"
-                            st.rerun()
-                    else:
-                        st.error("登录失败，请检查您的邮箱和密码。")
-                    """
                 except Exception as e:
-                    st.error(f"登录时出错：{e}")
+                    st.error(f"登录时出错：{str(e)}")
 
     with tab2:
         new_email = st.text_input("邮箱", key="signup_email")
