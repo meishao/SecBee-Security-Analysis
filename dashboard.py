@@ -15,11 +15,8 @@ if st.button("Start"):
     # Convert the count column to numeric (removing commas if present)
     data['Count of records'] = data['Count of records'].str.replace(',', '').astype(int)
 
-    # Set the threat categories as the index
-    data.set_index('Top 200 values of sourceClass.keyword', inplace=True)
+    st.bar_chart(data, x='Count of records', y='Top 200 values of sourceClass.keyword', horizontal=True)
 
-    # Plot the bar chart using st.bar_chart
-    st.bar_chart(data['Count of records'])
 
 
 
