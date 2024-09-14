@@ -29,12 +29,11 @@ if uploaded_file is not None:
 
     # 左侧列：选择过滤器
     with col1:
-        with st.container():
-            selected_categories = st.multiselect(
-                "Select categories to include:",
-                options=data[category_col].unique(),
-                default=data[category_col].unique()
-            )
+        selected_categories = st.multiselect(
+            "Select categories to include:",
+            options=data[category_col].unique(),
+            default=data[category_col].unique()
+        )
 
     # 根据选中的类别过滤数据
     filtered_data = data[data[category_col].isin(selected_categories)]
@@ -48,7 +47,7 @@ if uploaded_file is not None:
                     axis=alt.Axis(
                         titleAnchor="start",  # 将Y轴标题移动到最左侧
                         titleAngle=0,  # 标题水平显示
-                        labelLimit=500,  # 限制标签长度
+                        labelLimit=600,  # 限制标签长度
                     ))
         ).properties(
             title=alt.TitleParams(
