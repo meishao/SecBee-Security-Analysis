@@ -24,7 +24,7 @@ def dashboard_page():
         # 导航
         pg = st.navigation(
             {
-                "账号": [logout_page]
+                "账号": [logout_page],
                 "报告": [dashboard_page, top_country_threat_page, top_threat_category_page],
                 "工具": [search_page, history_page],
             }
