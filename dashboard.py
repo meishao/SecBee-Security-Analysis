@@ -68,6 +68,12 @@ if uploaded_file is not None:
         tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 确保只显示有效数据
     )
 
+    # 将地图和气泡图结合
+    final_chart = map_chart + points
+
+    # 在 Streamlit 中首先显示地图
+    st.altair_chart(final_chart, use_container_width=True)
+
     ### 显示柱状图 ###
     st.header("国家威胁记录数的柱状图")
     
@@ -82,9 +88,3 @@ if uploaded_file is not None:
         height=chart_height  # 动态高度
     )
     st.altair_chart(bar_chart, use_container_width=True)
-    
-    # 将地图和气泡图结合
-    final_chart = map_chart + points
-
-    # 在 Streamlit 中显示地图
-    st.altair_chart(final_chart, use_container_width=True)
