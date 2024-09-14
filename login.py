@@ -20,9 +20,9 @@ def main():
         # 检测当前主题
         theme = st.get_option("theme.base")
         if theme == "dark":
-            image_path = "dark_mode_logo.png"  # 替换为暗色模式下的图片路径
+            image_path = "dark_mode_image.png"  # 替换为暗色模式下的图片路径
         else:
-            image_path = "light_mode_logo.png"  # 替换为亮色模式下的图片路径
+            image_path = "light_mode_image.png"  # 替换为亮色模式下的图片路径
 
         st.image(image_path, use_column_width=True)
 
