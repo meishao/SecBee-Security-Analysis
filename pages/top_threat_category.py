@@ -29,11 +29,12 @@ if uploaded_file is not None:
 
     # 左侧列：选择过滤器
     with col1:
-        selected_categories = st.multiselect(
-            "Select categories to include:",
-            options=data[category_col].unique(),
-            default=data[category_col].unique()
-        )
+        with st.container():
+            selected_categories = st.multiselect(
+                "Select categories to include:",
+                options=data[category_col].unique(),
+                default=data[category_col].unique()
+            )
 
     # 根据选中的类别过滤数据
     filtered_data = data[data[category_col].isin(selected_categories)]
