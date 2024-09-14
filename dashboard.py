@@ -41,6 +41,19 @@ if uploaded_file is not None:
     # Filter the data based on the selected countries
     filtered_data = merged_data[merged_data['name'].isin(selected_countries)]
 
+    ### Display the Bar Chart ###
+    st.header("Bar Chart of Threat Counts by Country")
+    bar_chart = alt.Chart(filtered_data).mark_bar().encode(
+        x=alt.X(f'{count_col}:Q', title='Count of Records'),
+        y=alt.Y('name:N', sort='-x', title='Country')
+    ).properties(
+        width=700,
+        height=400
+    )
+    st.altair_chart(bar_chart, use_container_width=True)
+
+    ### Display the World Map ###
+    st.header("World Map of Threat Counts by Country")
     # Load world map data from Altair's vega_datasets
     countries = alt.topo_feature(vega_data.world_110m.url, 'countries')
 
@@ -49,9 +62,9 @@ if uploaded_file is not None:
         fill='lightgray',
         stroke='white'
     ).properties(
-        width=1000,  # Increased width
-        height=600,  # Increased height to improve visibility
-    ).project('equirectangular')  # Changed to equirectangular projection for full globe view
+        width=1000,
+        height=600
+    ).project('equirectangular')  # Equirectangular projection for full globe view
 
     # Create the bubble chart based on filtered data
     points = alt.Chart(filtered_data).mark_circle().encode(
