@@ -103,11 +103,14 @@ def login():
 
     if st.button("登录"):
         try:
-            # 使用 st-supabase-connection 进行认证
-            user = supabase.login(email, password)
-            if user:
+            # 使用 Supabase 客户端进行认证
+            auth_response = supabase.client.auth.sign_in_with_password({
+                "email": email,
+                "password": password
+            })
+            if auth_response.user:
                 st.session_state["logged_in"] = True
-                st.session_state["user"] = user
+                st.session_state["user"] = auth_response.user
                 st.success("登录成功")
                 st.experimental_rerun()
             else:
@@ -118,8 +121,8 @@ def login():
 def logout():
     st.title("退出登录")
     if st.button("退出"):
-        # 使用 st-supabase-connection 进行登出
-        supabase.logout()
+        # 使用 Supabase 客户端进行登出
+        supabase.client.auth.sign_out()
         st.session_state["logged_in"] = False
         st.session_state["user"] = None
         st.success("已成功退出登录")
