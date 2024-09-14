@@ -8,6 +8,7 @@ def logout_page(supabase):
         st.session_state["logged_in"] = False
         st.session_state["user"] = None
         st.success("已成功退出登录")
-        # 重定向到登录页面
-        st.query_params["page="] = "login"
-        st.rerun()
+        # 重定向到登录页面，避免重复调用
+        if st.query_params.page != "login":
+            st.query_params.page = "login"
+            st.rerun()
