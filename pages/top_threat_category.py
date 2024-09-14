@@ -22,28 +22,35 @@ if uploaded_file is not None:
     # Sort the data by the count column in descending order
     data = data.sort_values(by=count_col, ascending=False)
 
-    # Create two columns for layout
-    col1, col2 = st.columns([1, 3])  # Adjust column width ratio
-
-    # Left column: Dynamic filter for Y-axis categories
-    with col1:
-        selected_categories = st.multiselect(
-            "Select categories to include:",
-            options=data[category_col].unique(),
-            default=data[category_col].unique()
-        )
+    # Dynamic filter for Y-axis categories
+    selected_categories = st.multiselect(
+        "Select categories to include:",
+        options=data[category_col].unique(),
+        default=data[category_col].unique()
+    )
 
     # Filter the data based on the selected categories
     filtered_data = data[data[category_col].isin(selected_categories)]
 
-    # Right column: Create and display the horizontal bar chart using Altair
-    with col2:
-        chart = alt.Chart(filtered_data).mark_bar().encode(
-            x=alt.X(f'{count_col}:Q', title='Count of Records'),
-            y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category', axis=alt.Axis(labelLimit=600)) 
-        ).properties(
-            title="Top Threat Categories by Count"
-        )
-        
-        # Display the Altair chart in Streamlit
-        st.altair_chart(chart, use_container_width=True)
+    # Create a horizontal bar chart using Altair
+    chart = alt.Chart(filtered_data).mark_bar().encode(
+        x=alt.X(f'{count_col}:Q', title='Count of Records'),
+        y=alt.Y(f'{category_col}:N', sort='-x', 
+                title='Threat Category', 
+                axis=alt.Axis(
+                    titleAnchor="start",  # Move Y-axis title to the left
+                    titleAngle=0,  # Ensure title is horizontal
+                    labelLimit=600,  # Limit label length
+                    labelAngle=-30  # Rotate labels if needed
+                ))
+    ).properties(
+        title=alt.TitleParams(
+            text="Top Threat Categories by Count",  # Chart title
+            offset=20,  # Adjust this value to avoid blocking
+            fontSize=16  # Adjust font size if needed
+        ),
+        padding={"left": 100, "top": 30}  # Add padding on the left for Y-axis title
+    )
+
+    # Display the Altair chart in Streamlit
+    st.altair_chart(chart, use_container_width=True)
