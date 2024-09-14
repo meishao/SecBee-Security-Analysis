@@ -33,6 +33,17 @@ def login():
         .stApp {
             background-color: #1E1E1E;
         }
+        /* 登录容器样式 */
+        .login-container {
+            height: 10vh;  /* 设置高度为 10vh */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* 图片容器样式 */
+        .image-container img {
+            width: 50%;  /* 将 Logo 图片的宽度设置为 50% */
+        }
         /* 输入框样式 */
         input {
             background-color: #333333;
@@ -52,12 +63,6 @@ def login():
         .stButton > button:hover {
             background-color: #45a049;
         }
-        /* 居中登录表单 */
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         /* 调整字体颜色 */
         h1, label {
             color: white;
@@ -68,14 +73,17 @@ def login():
     )
     
     # 创建左右两列
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1, 1])
 
     # 左侧列：Logo
     with col1:
+        st.markdown('<div class="image-container">', unsafe_allow_html=True)
         st.image('logo.png', use_column_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # 右侧列：登录表单
     with col2:
+        st.markdown('<div class="login-container">', unsafe_allow_html=True)
         st.markdown("<div class='login-form'>", unsafe_allow_html=True)
         st.markdown("<h1>登录</h1>", unsafe_allow_html=True)
         email = st.text_input("邮箱", key="email")
@@ -95,7 +103,8 @@ def login():
                     st.error("登录失败，请检查您的邮箱和密码。")
             except Exception as e:
                 st.error(f"登录时出错：{e}")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)  # 结束 login-form
+        st.markdown('</div>', unsafe_allow_html=True)  # 结束 login-container
 
 def logout():
     st.title("退出登录")
