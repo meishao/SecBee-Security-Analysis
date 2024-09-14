@@ -10,8 +10,8 @@ supabase = init_supabase_connection()
 def main():
     # 如果已经登录，跳转到仪表板
     if st.session_state.get("logged_in"):
-        st.experimental_set_query_params(page="dashboard")
-        st.experimental_rerun()
+        st.query_params(page="dashboard")
+        st.rerun()
 
     # 创建左右两列布局
     col1, col2 = st.columns([1, 1])
@@ -45,8 +45,8 @@ def main():
                     st.success("登录成功")
 
                     # 登录成功后，跳转到仪表板
-                    st.experimental_set_query_params(page="dashboard")
-                    st.experimental_rerun()
+                    st.query_params(page="dashboard")
+                    st.rerun()
                 else:
                     st.error("登录失败，请检查您的邮箱和密码。")
             except Exception as e:
