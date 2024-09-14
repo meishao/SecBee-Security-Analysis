@@ -19,7 +19,7 @@ def dashboard_page(supabase):
         )
         search_page = st.Page("app_pages/snort_rule.py", title="搜索", icon=":material/search:")
         history_page = st.Page("app_pages/admin.py", title="历史记录", icon=":material/history:")
-        logout_page = st.Page(logout, title="退出登录", icon=":material/logout:")
+        logout_page = st.Page(logout(supabase), title="退出登录", icon=":material/logout:")
 
         # 导航
         pg = st.navigation(
