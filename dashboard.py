@@ -28,9 +28,6 @@ if uploaded_file is not None:
     # 将用户数据与国家坐标数据合并
     merged_data = pd.merge(data, country_coords, left_on=country_col, right_on='name', how='inner')
 
-    # 打印调试信息，检查列名
-    st.write("Filtered Data Columns:", merged_data.columns)
-
     # 根据记录数列降序排列数据
     merged_data = merged_data.sort_values(by=count_col, ascending=False)
 
