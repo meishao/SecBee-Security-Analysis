@@ -85,9 +85,7 @@ from st_supabase_connection import SupabaseConnection
 # 初始化 Supabase 连接
 @st.cache_resource
 def init_supabase_connection():
-    #return SupabaseConnection(connection_name="supabase", type=SupabaseConnection)
-    conn = st.connection("supabase",type=SupabaseConnection)
-    return conn
+    return SupabaseConnection(connection_name="supabase")
 
 supabase = init_supabase_connection()
 
@@ -129,22 +127,22 @@ def logout():
 
 # 定义页面
 dashboard = st.Page(
-    "dashboard.py", title="仪表板", icon=":material-dashboard:", default=True
+    "dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
 )
 top_country_threat = st.Page(
-    "pages/top_country_threat.py", title="全球威胁趋势", icon=":material-bug-report:"
+    "pages/top_country_threat.py", title="全球威胁趋势", icon=":material/bug_report:"
 )
 top_threat_category = st.Page(
-    "pages/top_threat_category.py", title="威胁分类排行", icon=":material-notification-important:"
+    "pages/top_threat_category.py", title="威胁分类排行", icon=":material/notification_important:"
 )
-search = st.Page("pages/snort_rule.py", title="搜索", icon=":material-search:")
-history = st.Page("pages/admin.py", title="历史记录", icon=":material-history:")
+search = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
+history = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
 
 # 导航
 if st.session_state["logged_in"]:
     pg = st.navigation(
         {
-            "账户": [st.Page(logout, title="退出登录", icon=":material-logout:")],
+            "账户": [st.Page(logout, title="退出登录", icon=":material/logout:")],
             "报告": [dashboard, top_country_threat, top_threat_category],
             "工具": [search, history],
         }
@@ -152,7 +150,7 @@ if st.session_state["logged_in"]:
 else:
     pg = st.navigation(
         {
-            "账户": [st.Page(login, title="登录", icon=":material-login:")],
+            "账户": [st.Page(login, title="登录", icon=":material/login:")],
         }
     )
 
