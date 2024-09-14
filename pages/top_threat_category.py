@@ -4,59 +4,69 @@ import altair as alt
 
 st.title("SecBee AI Security Analysis")
 
-# 上传分析文件
+# Upload analysis file
 uploaded_file = st.file_uploader("Upload analysis file:")
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
 
-    # 展示原始数据
+    # Data preview
     with st.expander("Data preview"):
         st.write(data)
 
-    # 自动识别列名
+    # List all column names
     column_names = data.columns.tolist()
-    category_col = column_names[0]  # 假设第一列是分类列
-    count_col = column_names[1]  # 假设第二列是记录数列
 
-    # 清理记录数列，去除逗号并转换为整数
-    data[count_col] = data[count_col].str.replace(',', '').astype(int)
+    # Identify numerical and categorical columns
+    numerical_cols = data.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    categorical_cols = data.select_dtypes(include=['object', 'category']).columns.tolist()
 
-    # 按照记录数列降序排列数据
-    data = data.sort_values(by=count_col, ascending=False)
+    st.subheader("Select Variables for Analysis")
 
-    # 创建左右列布局
-    col1, col2 = st.columns([1, 3])  # 左侧为1，右侧为3的比例
+    # Allow the user to select X-axis (numerical) and Y-axis (categorical) variables
+    x_col = st.selectbox("Select X-axis variable (numerical):", options=column_names)
+    y_col = st.selectbox("Select Y-axis variable (categorical):", options=column_names)
 
-    # 左侧列：选择过滤器
-    with col1:
-        selected_categories = st.multiselect(
-            "Select categories to include:",
-            options=data[category_col].unique(),
-            default=data[category_col].unique()
-        )
+    # Add START button
+    if st.button("START"):
+        # Clean the X-axis column (remove commas and convert to numeric)
+        data[x_col] = data[x_col].astype(str).str.replace(',', '').astype(float)
 
-    # 根据选中的类别过滤数据
-    filtered_data = data[data[category_col].isin(selected_categories)]
+        # Sort data descending by the X-axis variable
+        data = data.sort_values(by=x_col, ascending=False)
 
-    # 右侧列：创建水平柱状图
-    with col2:
-        chart = alt.Chart(filtered_data).mark_bar().encode(
-            x=alt.X(f'{count_col}:Q', title='Count of Records'),
-            y=alt.Y(f'{category_col}:N', sort='-x', 
-                    title='Threat Category', 
-                    axis=alt.Axis(
-                        titleAnchor="start",  # 将Y轴标题移动到最左侧
-                        titleAngle=0,  # 标题水平显示
-                        labelLimit=600,  # 限制标签长度
-                    ))
-        ).properties(
-            title=alt.TitleParams(
-                text="Top Threat Categories by Count",  # 图表标题
-                offset=20,  # 调整标题偏移量
-                fontSize=16  # 设置标题字体大小
-            ),
-            padding={"left": 30, "top": 30}  # 添加左侧和顶部的填充空间
-        )
+        # Create left and right columns
+        col1, col2 = st.columns([1, 3])  # Left column is 1, right column is 3
 
-        # 在 Streamlit 中显示图表
-        st.altair_chart(chart, use_container_width=True)
+        # Left column: filter selection
+        with col1:
+            selected_categories = st.multiselect(
+                "Select categories to include:",
+                options=data[y_col].unique(),
+                default=data[y_col].unique()
+            )
+
+        # Filter data based on selected categories
+        filtered_data = data[data[y_col].isin(selected_categories)]
+
+        # Right column: create horizontal bar chart
+        with col2:
+            chart = alt.Chart(filtered_data).mark_bar().encode(
+                x=alt.X(f'{x_col}:Q', title=x_col),
+                y=alt.Y(f'{y_col}:N', sort='-x',
+                        title=y_col,
+                        axis=alt.Axis(
+                            titleAnchor="start",
+                            titleAngle=0,
+                            labelLimit=600,
+                        ))
+            ).properties(
+                title=alt.TitleParams(
+                    text=f"Top {y_col} by {x_col}",
+                    offset=20,
+                    fontSize=16
+                ),
+                padding={"left": 30, "top": 30}
+            )
+
+            # Display the chart in Streamlit
+            st.altair_chart(chart, use_container_width=True)
