@@ -40,7 +40,7 @@ if uploaded_file is not None:
     with col2:
         chart = alt.Chart(filtered_data).mark_bar().encode(
             x=alt.X(f'{count_col}:Q', title='Count of Records'),
-            y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category', axis=alt.Axis(labelLimit=250)) 
+            y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category', axis=alt.Axis(labelLimit=300)) 
         ).properties(
             title="Top Threat Categories by Count"
         )
