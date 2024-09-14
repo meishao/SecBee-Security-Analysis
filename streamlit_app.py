@@ -15,9 +15,6 @@ if "user" not in st.session_state:
     st.session_state["user"] = None
 
 def login():
-    # 添加 Logo
-    st.image('logo.png', width=200)
-
     # 使用 CSS 美化登录页面
     st.markdown(
         """
@@ -27,11 +24,24 @@ def login():
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .login-container h1 {
+            margin-bottom: 30px;
         }
         /* 调整输入框样式 */
-        div[data-baseweb="input"] > div {
+        div[data-baseweb="input"] {
             width: 300px !important;
+            margin-bottom: 20px !important;
+        }
+        div[data-baseweb="input"] > div {
+            width: 100% !important;
         }
         div[data-baseweb="input"] > div > input {
             padding: 10px !important;
@@ -51,6 +61,10 @@ def login():
         div.stButton > button:hover {
             background-color: #45a049 !important;
         }
+        /* 消除 Streamlit 默认的顶部间距 */
+        div.block-container {
+            padding-top: 0 !important;
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -59,7 +73,11 @@ def login():
     # 创建登录容器
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    st.title("登录")
+    # 添加 Logo
+    st.image('logo.png')  # 可以指定 width 参数，例如 width=200
+
+    # 登录标题
+    st.markdown('<h1>登录</h1>', unsafe_allow_html=True)
 
     # 邮箱和密码输入框
     email = st.text_input("邮箱", key="email")
