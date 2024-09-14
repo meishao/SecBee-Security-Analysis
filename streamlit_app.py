@@ -2,7 +2,6 @@ import streamlit as st
 from st_supabase_connection import SupabaseConnection
 
 # 初始化 Supabase 连接
-@st.cache_resource
 def init_supabase_connection():
     return SupabaseConnection(connection_name="supabase")
 
