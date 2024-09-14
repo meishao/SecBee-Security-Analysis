@@ -1,5 +1,13 @@
 import streamlit as st
-from app_pages.logout import logout
+
+def logout(supabase):
+    st.title("退出登录")
+    st.write("正在退出...")
+    if st.button("退出"):
+        # 使用 Supabase 进行登出
+        supabase.auth.sign_out()
+        st.session_state.clear()
+        st.rerun()
 
 def dashboard_page(supabase):
     # 检查用户是否已登录
