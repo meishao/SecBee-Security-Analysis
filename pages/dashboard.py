@@ -16,6 +16,7 @@ def dashboard_page():
         top_threat_category_page = st.Page(
             "pages/top_threat_category.py", title="威胁分类排行", icon=":material/notification_important:"
         )
+        st.write("GOOD!!!!")
         search_page = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
         history_page = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
         logout_page = st.Page("pages/logout.py", title="退出登录", icon=":material/logout:")
