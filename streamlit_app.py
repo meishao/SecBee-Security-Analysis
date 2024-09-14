@@ -42,7 +42,7 @@ def logout():
     supabase.auth.sign_out()
     st.session_state.clear()
     sleep(0.5)
-    st.switch_page("streamlit_app.py")
+    st.switch_page("pages/redirect.py")
 
 def main():
     if not check_auth():
