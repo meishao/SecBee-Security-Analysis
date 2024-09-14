@@ -31,7 +31,7 @@ def login_page(supabase):
                         "password": password
                     })
                     st.session_state["logged_in"] = True
-                    st.session_stata.user = auth_response.user
+                    st.session_state.user = auth_response.user
                     st.success("登录成功")
                     st.rerun()
                     
