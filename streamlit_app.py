@@ -56,7 +56,6 @@ def logout():
     """
     # 使用 components.v1.html() 嵌入 HTML 代码
     components.html(html_code)
-    st.rerun()
 
 def main():
     if not check_auth():
