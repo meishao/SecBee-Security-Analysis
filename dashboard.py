@@ -15,7 +15,7 @@ if st.button("Start"):
     #st.bar_chart(data.set_index('sourceClass'), horizontal=True)
     # Create a horizontal bar chart using Altair
     chart = alt.Chart(data).mark_bar().encode(
-        x='Count of records:Q',
+        x='count:Q',
         y=alt.Y('sourceClass:N', sort='-x')  # Sort by the count of records in descending order
     ).properties(
         title="Top Threat Categories by Count"
