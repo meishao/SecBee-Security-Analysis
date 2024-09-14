@@ -21,8 +21,7 @@ from pages.logout import logout_page
 # ... 导入其他页面
 
 # 获取查询参数
-query_params = st.query_params()
-page = query_params.get("page", ["login"])[0]
+page = st.query_params.page if "page" in st.query_params else "login"
 
 # 页面导航逻辑
 if page == "login":
@@ -32,10 +31,13 @@ elif page == "dashboard":
         dashboard_page()
     else:
         st.warning("请先登录。")
-        st.query_params["page"]="login"
-        st.rerun()
+        # 避免死循环，仅当查询参数需要修改时才进行更新和跳转
+        if st.query_params.page != "login":
+            st.query_params.page = "login"
+            st.rerun()
 elif page == "logout":
     logout_page(supabase)
 else:
-    st.query_params["page"]="login"
-    st.rerun()
+    if st.query_params.page != "login":
+        st.query_params.page = "login"
+        st.rerun()
