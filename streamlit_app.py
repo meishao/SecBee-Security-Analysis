@@ -15,18 +15,31 @@ if "user" not in st.session_state:
     st.session_state["user"] = None
 
 def login():
-    st.title("登录")
+    # 去掉登录的标题
+    # st.title("登录")
 
     # 创建左右两列布局
     col1, col2 = st.columns([1, 1])  # 您可以调整比例，如 [1, 2]
 
     with col1:
-        # 在左侧列添加图片
-        st.image("logo.png", caption="欢迎使用 SecBee AI 安全分析", use_column_width=True)
-        # 请将 "path_to_your_image.jpg" 替换为您的图片路径或 URL
+        # 检测当前主题
+        theme = st.get_option("theme.base")
+        if theme == "dark":
+            image_path = "dark_mode_image.png"  # 替换为暗色模式下的图片路径
+        else:
+            image_path = "light_mode_image.png"  # 替换为亮色模式下的图片路径
+
+        # 使用 HTML 将图片居中
+        st.markdown(
+            f"""
+            <div style='text-align: center;'>
+                <img src='{image_path}' style='width:100%; max-width:300px;'>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     with col2:
-        # 在右侧列添加登录表单
         st.subheader("登录您的账户")
 
         email = st.text_input("邮箱")
