@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from st_supabase_connection import SupabaseConnection
 from app_pages.login import login_page
 from time import sleep
@@ -39,12 +40,23 @@ def dashboard():
 
 def logout():
     # 使用 Supabase 进行登出
-    pp = st.query_params
-    st.write(pp)
     supabase.auth.sign_out()
     st.session_state.clear()
     sleep(0.5)
-    st.redirect("/")
+    # 创建一个包含meta标签的HTML代码，设置页面跳转
+    html_code = """
+    <html>
+    <head>
+        <meta http-equiv="refresh" content="1; url=https://secbee.streamlit.app/">
+    </head>
+    <body>
+        <p>如果页面没有自动跳转，请 <a href="https://secbee.streamlit.app/">点击这里</a>。</p>
+    </body>
+    </html>
+    """
+    # 使用 components.v1.html() 嵌入 HTML 代码
+    components.html(html_code)
+    st.rerun()
 
 def main():
     if not check_auth():
