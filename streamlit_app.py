@@ -47,7 +47,7 @@ def logout():
 
 def main():
     if not check_auth():
-        login_page()
+        login_page(supabase)
     else:
         dashboard()
 
