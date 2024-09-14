@@ -8,17 +8,18 @@ def dashboard_page():
     else:
         # 定义页面
         dashboard_page = st.Page(
-            "pages/dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
+            "app_pages/dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
         )
         top_country_threat_page = st.Page(
-            "pages/top_country_threat.py", title="全球威胁趋势", icon=":material/bug_report:"
+            "app_pages/top_country_threat.py", title="全球威胁趋势", icon=":material/bug_report:"
         )
         top_threat_category_page = st.Page(
-            "pages/top_threat_category.py", title="威胁分类排行", icon=":material/notification_important:"
+            "app_pages/top_threat_category.py", title="威胁分类排行", icon=":material/notification_important:"
         )
         st.write("GOOD!!!!")
-        search_page = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:")
-        history_page = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
+        search_page = st.Page("app_pages/snort_rule.py", title="搜索", icon=":material/search:")
+        history_page = st.Page("app_pages/admin.py", title="历史记录", icon=":material/history:")
+        logout_page = st.Page("app_pages/logout.py", title="退出登录", icon="material/logout:")
 
         # 导航
         pg = st.navigation(
