@@ -9,7 +9,7 @@ if not st.session_state.get("logged_in"):
 else:
     # 定义页面
     dashboard_page = st.Page(
-        "dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
+        "pages/dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
     )
     top_country_threat_page = st.Page(
         "pages/top_country_threat.py", title="全球威胁趋势", icon=":material/bug_report:"
