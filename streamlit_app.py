@@ -16,7 +16,7 @@ def main():
     if not check_auth():
         login_page(supabase)
     else:
-        dashboard_page()
+        dashboard_page(supabase)
 
 if __name__ == "__main__":
     main()
