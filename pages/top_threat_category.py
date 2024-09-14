@@ -55,7 +55,7 @@ if uploaded_file is not None:
                 offset=20,  # 调整标题偏移量
                 fontSize=16  # 设置标题字体大小
             ),
-            padding={"left": 100, "top": 30}  # 添加左侧和顶部的填充空间
+            padding={"left": 30, "top": 30}  # 添加左侧和顶部的填充空间
         )
 
         # 在 Streamlit 中显示图表
