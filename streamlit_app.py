@@ -61,7 +61,7 @@ def login():
 
 if st.session_state.get("logged_in"):
     # 已登录，重定向到 dashboard.py
-    st.experimental_set_query_params(page="dashboard")
-    st.experimental_rerun()
+    st.query_params(page="dashboard")
+    st.rerun()
 else:
     login()
