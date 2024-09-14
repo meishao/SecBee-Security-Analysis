@@ -3,89 +3,89 @@ import pandas as pd
 import altair as alt
 from vega_datasets import data as vega_data
 
-# 加载国家坐标的 CSV 文件
+# Load the country coordinates CSV file
 country_coords = pd.read_csv('data/countries.csv')
 
 st.title("SecBee AI Security Analysis")
 
-# 上传用户的数据（包含国家和记录数的列）
-uploaded_file = st.file_uploader("上传分析文件：")
+# Upload the user's data (with country and count columns)
+uploaded_file = st.file_uploader("Upload analysis file:")
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
 
-    # 展示原始数据预览
-    with st.expander("数据预览"):
+    # Preview the raw data
+    with st.expander("Data preview"):
         st.write(data)
 
-    # 自动识别列名
+    # Automatically identify the column names
     column_names = data.columns.tolist()
-    country_col = column_names[0]  # 假设第一列是国家名称
-    count_col = column_names[1]  # 假设第二列是记录数
+    country_col = column_names[0]  # Assuming the first column is the country name
+    count_col = column_names[1]  # Assuming the second column is the count
 
-    # 清理记录数列，去除逗号并转换为整数
+    # Clean the count column by removing commas and converting to integers
     data[count_col] = data[count_col].str.replace(',', '').astype(int)
 
-    # 将用户数据与国家坐标数据合并
+    # Merge the user data with the country coordinates based on country name
     merged_data = pd.merge(data, country_coords, left_on=country_col, right_on='name', how='inner')
 
-    # 根据记录数列降序排列数据
+    # Sort the data by the count column in descending order
     merged_data = merged_data.sort_values(by=count_col, ascending=False)
 
-    # 选择要显示的国家
+    # Select countries to display using a filter
     selected_countries = st.multiselect(
-        "选择要包含的国家：",
+        "Select countries to include:",
         options=merged_data['name'].unique(),
         default=merged_data['name'].unique()
     )
 
-    # 根据选定的国家过滤数据
+    # Filter the data based on the selected countries
     filtered_data = merged_data[merged_data['name'].isin(selected_countries)]
 
-    ### 显示柱状图 ###
-    st.header("国家威胁记录数的柱状图")
+    ### Display the Bar Chart ###
+    st.header("Bar Chart of Threat Counts by Country")
     
-    # 动态调整图表高度
-    chart_height = max(400, 25 * len(filtered_data))  # 每个国家 25 像素
+    # Calculate dynamic height based on the number of countries
+    chart_height = max(400, 25 * len(filtered_data))  # 25 pixels per country
     
     bar_chart = alt.Chart(filtered_data).mark_bar().encode(
-        x=alt.X(f'{count_col}:Q', title='记录数'),
-        y=alt.Y('name:N', sort='-x', title='国家')
+        x=alt.X(f'{count_col}:Q', title='Count of Records'),
+        y=alt.Y('name:N', sort='-x', title='Country')
     ).properties(
         width=700,
-        height=chart_height  # 动态高度
+        height=chart_height  # Dynamic height
     )
     st.altair_chart(bar_chart, use_container_width=True)
 
-    ### 显示世界地图 ###
-    st.header("世界威胁分布")
-    # 加载 Altair 的世界地图数据
+    ### Display the World Map ###
+    st.header("World Map of Threat Counts by Country")
+    # Load world map data from Altair's vega_datasets
     countries = alt.topo_feature(vega_data.world_110m.url, 'countries')
 
-    # 创建不带工具提示的地图图层
+    # Create the map chart without tooltips
     map_chart = alt.Chart(countries).mark_geoshape(
         fill='lightgray',
         stroke='white'
     ).properties(
         width=1000,
         height=600
-    ).project('equirectangular')  # 使用等矩形投影显示整个世界
+    ).project('equirectangular')  # Equirectangular projection for full globe view
 
-    # 创建工具提示的选择条件
+    # Create a selection condition for tooltips
     selection = alt.selection_single(on='mouseover', fields=['name'], nearest=True, empty='none')
 
-    # 创建只对气泡显示工具提示的图层
+    # Create a bubble chart with tooltips only on hover
     points = alt.Chart(filtered_data).mark_circle().encode(
         longitude='longitude:Q',
         latitude='latitude:Q',
-        size=alt.Size(f'{count_col}:Q', title='记录数', scale=alt.Scale(range=[10, 1000])),
-        color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='记录数'),
-        tooltip=alt.condition(selection, [alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')], alt.value(''))  # 通过条件设置工具提示
+        size=alt.Size(f'{count_col}:Q', title='Count of Records', scale=alt.Scale(range=[10, 1000])),
+        color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='Count of Records'),
+        tooltip=alt.condition(selection, [alt.Tooltip('name:N', title='Country'), alt.Tooltip(f'{count_col}:Q', title='Count of Records')], alt.value(''))  # Conditional tooltip
     ).add_selection(
         selection
     )
 
-    # 将地图和气泡图结合
+    # Combine the map and the points (bubbles)
     final_chart = map_chart + points
 
-    # 在 Streamlit 中显示地图
+    # Display the map in Streamlit
     st.altair_chart(final_chart, use_container_width=True)
