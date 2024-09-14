@@ -1,21 +1,12 @@
-# dashboard.py
-
 import streamlit as st
-import streamlit.components.v1 as components
 
 # 检查用户是否已登录
 if not st.session_state.get("logged_in"):
     st.warning("请先登录以访问此页面。")
     # 重定向到登录页面
-    st.query_params()
+    st.query_params["page"] = "login"
     st.rerun()
 else:
-    # 导入其他需要的模块
-    # from pages.top_country_threat import top_country_threat
-    # from pages.top_threat_category import top_threat_category
-    # from pages.snort_rule import snort_rule
-    # from pages.admin import admin
-
     # 定义页面
     dashboard_page = st.Page(
         "dashboard.py", title="仪表板", icon=":material/dashboard:", default=True
