@@ -44,14 +44,14 @@ if uploaded_file is not None:
     # Load world map data from Altair's vega_datasets
     countries = alt.topo_feature(vega_data.world_110m.url, 'countries')
 
-    # Create the map chart
+    # Create the map chart with improved projection and aspect ratio
     map_chart = alt.Chart(countries).mark_geoshape(
         fill='lightgray',
         stroke='white'
     ).properties(
-        width=800,
-        height=400
-    ).project('mercator')
+        width=1000,  # Increased width
+        height=600,  # Increased height to improve visibility
+    ).project('equirectangular')  # Changed to equirectangular projection for full globe view
 
     # Create the bubble chart based on filtered data
     points = alt.Chart(filtered_data).mark_circle().encode(
