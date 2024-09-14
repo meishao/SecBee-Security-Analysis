@@ -79,7 +79,7 @@ if uploaded_file is not None:
         tooltip=[alt.Tooltip('name:N', title='Country'), alt.Tooltip(f'{count_col}:Q', title='Count of Records')]  # Proper tooltips for points
     ).transform_filter(
         alt.datum[f'{count_col}'] > 0
-    ）
+    )
 
     # Combine the map and the points (bubbles), with tooltips only on points
     final_chart = map_chart + points
