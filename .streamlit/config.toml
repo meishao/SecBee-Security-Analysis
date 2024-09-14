@@ -1,8 +1,5 @@
 [client]
-showSidebarNavigation = false
-
-[server]
-headless = true
+showSidebarNavigation = true
 
 [browser]
 gatherUsageStats = false  # 禁用 usage stats, 这会禁用"Deploy"按钮
