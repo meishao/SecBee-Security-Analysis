@@ -4,11 +4,9 @@ def logout_page(supabase):
     st.title("退出登录")
     if st.button("退出"):
         # 使用 Supabase 进行登出
-        supabase.client.auth.sign_out()
-        st.session_state["logged_in"] = False
-        st.session_state["user"] = None
+        supabase.auth.sign_out()
+        #st.session_state["logged_in"] = False
+        #st.session_state["user"] = None
+        st.session_state.clear()
         st.success("已成功退出登录")
-        # 重定向到登录页面，避免重复调用
-        if st.query_params.page != "login":
-            st.query_params.page = "login"
-            st.rerun()
+        st.rerun()
