@@ -45,21 +45,6 @@ if uploaded_file is not None:
     # 根据选定的国家过滤数据
     filtered_data = merged_data[merged_data['name'].isin(selected_countries)]
 
-    ### 显示柱状图 ###
-    st.header("国家威胁记录数的柱状图")
-    
-    # 动态调整图表高度
-    chart_height = max(400, 25 * len(filtered_data))  # 每个国家 25 像素
-    
-    bar_chart = alt.Chart(filtered_data).mark_bar().encode(
-        x=alt.X(f'{count_col}:Q', title='记录数'),
-        y=alt.Y('name:N', sort='-x', title='国家')
-    ).properties(
-        width=700,
-        height=chart_height  # 动态高度
-    )
-    st.altair_chart(bar_chart, use_container_width=True)
-
     ### 显示世界地图 ###
     st.header("国家威胁记录数的世界地图")
     # 加载 Altair 的世界地图数据
@@ -83,6 +68,21 @@ if uploaded_file is not None:
         tooltip=[alt.Tooltip('name:N', title='国家'), alt.Tooltip(f'{count_col}:Q', title='记录数')]  # 确保只显示有效数据
     )
 
+    ### 显示柱状图 ###
+    st.header("国家威胁记录数的柱状图")
+    
+    # 动态调整图表高度
+    chart_height = max(400, 25 * len(filtered_data))  # 每个国家 25 像素
+    
+    bar_chart = alt.Chart(filtered_data).mark_bar().encode(
+        x=alt.X(f'{count_col}:Q', title='记录数'),
+        y=alt.Y('name:N', sort='-x', title='国家')
+    ).properties(
+        width=700,
+        height=chart_height  # 动态高度
+    )
+    st.altair_chart(bar_chart, use_container_width=True)
+    
     # 将地图和气泡图结合
     final_chart = map_chart + points
 
