@@ -2,6 +2,8 @@ import streamlit as st
 from st_supabase_connection import SupabaseConnection
 from app_pages.login import login_page
 from app_pages.dashboard import dashboard_page
+from app_pages.logout import logout_page
+
 
 # 初始化 Supabase 连接
 def init_supabase_connection():
@@ -20,3 +22,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
