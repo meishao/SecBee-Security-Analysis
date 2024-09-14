@@ -83,7 +83,7 @@ import streamlit as st
 from st_supabase_connection import SupabaseConnection
 
 # 初始化 Supabase 连接
-@st.experimental_singleton
+@st.cache_resource
 def init_supabase_connection():
     return SupabaseConnection()
 
