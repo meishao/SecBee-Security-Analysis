@@ -43,12 +43,16 @@ if uploaded_file is not None:
 
     ### Display the Bar Chart ###
     st.header("Bar Chart of Threat Counts by Country")
+    
+    # Calculate dynamic height based on the number of countries
+    chart_height = max(400, 25 * len(filtered_data))  # 25 pixels per country
+    
     bar_chart = alt.Chart(filtered_data).mark_bar().encode(
         x=alt.X(f'{count_col}:Q', title='Count of Records'),
         y=alt.Y('name:N', sort='-x', title='Country')
     ).properties(
         width=700,
-        height=400
+        height=chart_height  # Dynamic height
     )
     st.altair_chart(bar_chart, use_container_width=True)
 
