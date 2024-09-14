@@ -61,7 +61,7 @@ if uploaded_file is not None:
     # Load world map data from Altair's vega_datasets
     countries = alt.topo_feature(vega_data.world_110m.url, 'countries')
 
-    # Create the map chart with improved projection and aspect ratio
+    # Create the map chart without tooltips
     map_chart = alt.Chart(countries).mark_geoshape(
         fill='lightgray',
         stroke='white'
@@ -70,16 +70,16 @@ if uploaded_file is not None:
         height=600
     ).project('equirectangular')  # Equirectangular projection for full globe view
 
-    # Create the bubble chart based on filtered data
+    # Create the bubble chart with tooltips applied only to the points (bubbles)
     points = alt.Chart(filtered_data).mark_circle().encode(
         longitude='longitude:Q',
         latitude='latitude:Q',
         size=alt.Size(f'{count_col}:Q', title='Count of Records', scale=alt.Scale(range=[10, 1000])),
         color=alt.Color(f'{count_col}:Q', scale=alt.Scale(scheme='reds'), title='Count of Records'),
-        tooltip=['name', count_col]
+        tooltip=['name', count_col]  # Tooltips only for the points
     )
 
-    # Combine the map and the points (bubbles)
+    # Combine the map and the points (bubbles), with tooltips only on points
     final_chart = map_chart + points
 
     # Display the map in Streamlit
