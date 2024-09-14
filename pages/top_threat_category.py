@@ -63,9 +63,20 @@ if uploaded_file is not None:
 
         # Right column: create horizontal bar chart
         with col2:
+            # Determine the data type for x_col
+            if data[x_col].dtype in ['int64', 'float64']:
+                x_type = 'quantitative'
+            else:
+                x_type = 'nominal'  # or 'ordinal', depending on your data
+            
+            # Determine the data type for y_col
+            if data[y_col].dtype in ['int64', 'float64']:
+                y_type = 'quantitative'
+            else:
+                y_type = 'nominal'
             chart = alt.Chart(filtered_data).mark_bar().encode(
-                x=alt.X(f'{x_col}:Q', title=x_col),
-                y=alt.Y(f'{y_col}:N', sort='-x',
+                x=alt.X(x_col, type=x_type, title=x_col),
+                y=alt.Y(y_col, type=y_type, sort='-x',
                         title=y_col,
                         axis=alt.Axis(
                             titleAnchor="start",
