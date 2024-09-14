@@ -112,7 +112,7 @@ def login():
                 st.session_state["logged_in"] = True
                 st.session_state["user"] = auth_response.user
                 st.success("登录成功")
-                st.experimental_rerun()
+                # 移除 st.experimental_rerun()
             else:
                 st.error("登录失败，请检查您的邮箱和密码。")
         except Exception as e:
@@ -126,7 +126,7 @@ def logout():
         st.session_state["logged_in"] = False
         st.session_state["user"] = None
         st.success("已成功退出登录")
-        st.experimental_rerun()
+        # 移除 st.experimental_rerun()
 
 # 定义页面
 dashboard = st.Page(
@@ -142,7 +142,7 @@ search = st.Page("pages/snort_rule.py", title="搜索", icon=":material/search:"
 history = st.Page("pages/admin.py", title="历史记录", icon=":material/history:")
 
 # 导航
-if st.session_state["logged_in"]:
+if st.session_state.get("logged_in"):
     pg = st.navigation(
         {
             "账户": [st.Page(logout, title="退出登录", icon=":material/logout:")],
@@ -158,4 +158,3 @@ else:
     )
 
 pg.run()
-
