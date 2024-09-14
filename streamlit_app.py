@@ -40,7 +40,8 @@ def logout():
     # 使用 Supabase 进行登出
     supabase.auth.sign_out()
     st.session_state.clear()
-    st.rerun()
+    sleep(0.5)
+    st.switch_page("app_pages/login.py")
 
 def main():
     if not check_auth():
