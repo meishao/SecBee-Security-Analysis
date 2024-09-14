@@ -12,11 +12,8 @@ if uploaded_file is not None:
 if st.button("Start"):
     st.write("Analyzing...")
     #st.write(dataframe)
-    # Convert the count column to numeric (removing commas if present)
-    data['Count of records'] = data['Count of records'].str.replace(',', '').astype(int)
-
-    st.bar_chart(data, x='Count of records', y='Top 200 values of sourceClass.keyword', horizontal=True)
-
+    #data['Count of records'] = data['Count of records'].str.replace(',', '').astype(int)
+    st.bar_chart(data.set_index('Top 200 values of sourceClass.keyword'))
 
 
 
