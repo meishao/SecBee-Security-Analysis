@@ -22,7 +22,7 @@ def login():
 
     with col1:
         # 在左侧列添加图片
-        st.image("path_to_your_image.jpg", caption="欢迎使用 SecBee AI 安全分析", use_column_width=True)
+        st.image("logo.png", caption="欢迎使用 SecBee AI 安全分析", use_column_width=True)
         # 请将 "path_to_your_image.jpg" 替换为您的图片路径或 URL
 
     with col2:
