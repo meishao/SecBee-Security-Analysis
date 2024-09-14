@@ -14,6 +14,11 @@ name = "威胁分类排行统计"
 icon = ""
 
 [[pages]]
+path = "pages/top_country_threat.py"
+name = "威胁分类排行统计"
+icon = ""
+
+[[pages]]
 name = "威胁分析工具"
 icon = ""
 is_section = true
