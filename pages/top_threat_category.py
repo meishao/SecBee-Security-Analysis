@@ -22,24 +22,28 @@ if uploaded_file is not None:
     # Sort the data by the count column in descending order
     data = data.sort_values(by=count_col, ascending=False)
 
-    # Dynamic filter for Y-axis categories
-    selected_categories = st.multiselect(
-        "Select categories to include:",
-        options=data[category_col].unique(),
-        default=data[category_col].unique()
-    )
+    # Create two columns for layout
+    col1, col2 = st.columns([1, 3])  # Adjust column width ratio
+
+    # Left column: Dynamic filter for Y-axis categories
+    with col1:
+        selected_categories = st.multiselect(
+            "Select categories to include:",
+            options=data[category_col].unique(),
+            default=data[category_col].unique()
+        )
 
     # Filter the data based on the selected categories
     filtered_data = data[data[category_col].isin(selected_categories)]
 
-    # Create a horizontal bar chart using Altair
-    chart = alt.Chart(filtered_data).mark_bar().encode(
-        x=alt.X(f'{count_col}:Q', title='Count of Records'),
-        y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category')
-    ).properties(
-        title="Top Threat Categories by Count"
-    )
-
-    # Display the Altair chart in Streamlit
-    st.altair_chart(chart, use_container_width=True)
-
+    # Right column: Create and display the horizontal bar chart using Altair
+    with col2:
+        chart = alt.Chart(filtered_data).mark_bar().encode(
+            x=alt.X(f'{count_col}:Q', title='Count of Records'),
+            y=alt.Y(f'{category_col}:N', sort='-x', title='Threat Category')
+        ).properties(
+            title="Top Threat Categories by Count"
+        )
+        
+        # Display the Altair chart in Streamlit
+        st.altair_chart(chart, use_container_width=True)
