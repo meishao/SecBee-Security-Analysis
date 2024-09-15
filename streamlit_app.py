@@ -40,10 +40,11 @@ def dashboard():
 
 def logout():
     # 使用 Supabase 进行登出
-    supabase.auth.sign_out()
-    st.session_state.clear()
-    sleep(0.5)
-    st.rerun()
+    if st.button("确认退出"):
+        supabase.auth.sign_out()
+        st.session_state.clear()
+        sleep(0.5)
+        st.rerun()
 
 def main():
     if not check_auth():
